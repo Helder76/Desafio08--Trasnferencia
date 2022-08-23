@@ -20,6 +20,17 @@ export class alterStatements1661253440428 implements MigrationInterface {
             })
         )
 
+        await queryRunner.changeColumn(
+            'statements',
+            'amount',
+            new TableColumn({
+                name: 'amount',
+                type: 'decimal',
+                precision: 17,
+                scale: 2,
+            })
+        )        
+
         await queryRunner.createForeignKey('statements', new TableForeignKey({
             name: 'statements_sender_id_fk',
             columnNames: ['sender_id'],
@@ -33,6 +44,16 @@ export class alterStatements1661253440428 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropForeignKey('statements', 'statements_sender_id_fk');
+        await queryRunner.changeColumn(
+            'statements',
+            'amount',
+            new TableColumn({
+                name: 'amount',
+                type: 'decimal',
+                precision: 5,
+                scale: 2,
+            })
+        )         
         await queryRunner.changeColumn(
             'statements',
             'type',
